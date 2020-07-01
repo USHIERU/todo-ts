@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TasksService } from '../../services/tasks/tasks.service';
 declare var jQuery: any;
 
 @Component({
@@ -8,11 +9,7 @@ declare var jQuery: any;
 })
 export class HomeComponent implements OnInit {
 
-  todoTasks : string[];
-  inProccessTasks : string[];
-  finalizeTasks : string[];
-
-  constructor() {}
+  constructor(public tasksService: TasksService) {}
 
   ngOnInit(): void {
     (function ($) {
@@ -20,5 +17,11 @@ export class HomeComponent implements OnInit {
         $('.modal').modal();
       });
     })(jQuery);
+  }
+
+  addTask(title: HTMLInputElement, description: HTMLInputElement) {
+    this.tasksService.addTask(title.value, description.value);
+    title.value = '';
+    description.value = '';
   }
 }

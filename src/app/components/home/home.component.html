@@ -1,17 +1,44 @@
 <app-navbar></app-navbar>
 
-<div class="container">
+<div class="container" style="margin-top: 2em;">
     <div class="row">
         <div class="col s4">
             <div class="card-panel grey darken-2">
                 <div class="card-content">
                     <span class="card-title grey-text text-darken-4">TODO
-                        <span data-target="addTask" class="new badge waves-effect btn cyan darken-4 modal-trigger"
+                        <span data-target="addTask" class="new badge waves-effect btn indigo darken-4 modal-trigger"
                             data-badge-caption="add">
                             <i class="material-icons right">add</i>
                         </span>
                     </span>
                     <hr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let task of tasksService.todoTasks">
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>
+                                    <span class="new badge waves-effect btn indigo darken-4" data-badge-caption=""
+                                        (click)="tasksService.passToInProccess(task.id)">
+                                        <i class="material-icons">keyboard_arrow_right</i>
+                                    </span>
+                                    <span> </span>
+                                    <span class="new badge waves-effect btn red darken-4" data-badge-caption=""
+                                        (click)="tasksService.delete(task.id)">
+                                        <i class="material-icons">delete</i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -20,6 +47,28 @@
                 <div class="card-content">
                     <span class="card-title grey-text text-darken-4">In Proccess</span>
                     <hr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let task of tasksService.inProccessTasks">
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>
+                                    <span class="new badge waves-effect btn green darken-4" data-badge-caption=""
+                                        (click)="tasksService.passToFinalized(task.id)">
+                                        <i class="material-icons">check</i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -28,6 +77,28 @@
                 <div class="card-content">
                     <span class="card-title grey-text text-darken-4">Finalized</span>
                     <hr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let task of tasksService.finalizeTasks">
+                            <tr>
+                                <td>{{ task.title }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>
+                                    <span class="new badge waves-effect btn red darken-4" data-badge-caption=""
+                                        (click)="tasksService.finalized(task.id)">
+                                        <i class="material-icons">delete</i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -41,16 +112,18 @@
             <form action="" class="col s12">
                 <div class="row">
                     <div class="input-field col s12">
-                        <input id="title" type="text">
+                        <input id="title" type="text" #title>
                         <label for="title" data-error="wrong" data-success="right">Title</label>
                     </div>
                     <div class="input-field col s12">
-                        <input id="description" type="text">
+                        <input id="description" type="text" #description>
                         <label for="description" data-error="wrong" data-success="right">Description</label>
                     </div>
                     <div class="right-align">
-                        <button type="button" class="waves-effect btn cyan darken-4 modal-action modal-close"><i
-                                class="material-icons right">add</i>Agregar</button>
+                        <button type="button" class="waves-effect btn cyan darken-4 modal-action modal-close"
+                            (click)="addTask(title, description)">
+                            <i class=" material-icons right">add</i>
+                            Agregar</button>
                     </div>
                 </div>
             </form>
